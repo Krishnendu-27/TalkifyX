@@ -23,20 +23,18 @@ export const RegisterForm = ({ theme, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password !== formData.rePassword) {
-      setLocalError("Passwords do not match");
+      useAuthStore.getState().setError("Passwords do not match");
       return;
     }
-    try {
-      const success = await register({
-        username: formData.username,
-        password: formData.password,
-      });
-      if (success) {
-        onClose();
-      }
+    const success = await register({
+      username: formData.username,
+      password: formData.password,
+    });
+    if (success) {
+      onClose();
       navigate("/login");
       toast.success("Register Successfully !!");
-    } catch (error) {}
+    }
   };
 
   return (
@@ -47,13 +45,7 @@ export const RegisterForm = ({ theme, onClose }) => {
       transition={{ duration: 0.2 }}
       onSubmit={handleSubmit}
     >
-      {(localError || storeError) && (
-        <div
-          className={`mb-4 p-3 rounded-lg flex items-center gap-2 text-sm border ${theme.errorBg}`}
-        >
-          <AlertCircle size={16} /> {localError || storeError}
-        </div>
-      )}
+      <ErrorAlert theme={theme} />
 
       <InputField
         name="username"
@@ -87,6 +79,31 @@ export const RegisterForm = ({ theme, onClose }) => {
         <SubmitButton loading={loading} text="Create Account" />
       </div>
     </motion.form>
+  );
+};
+
+const ErrorAlert = ({ theme }) => {
+  const { error, clearError } = useAuthStore();
+
+  useEffect(() => {
+    if (!error) return;
+
+    const timer = setTimeout(() => {
+      clearError();
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [error, clearError]);
+
+  if (!error) return null;
+
+  return (
+    <div
+      className={`mb-4 p-3 rounded-lg flex items-center gap-2 text-sm border ${theme.errorBg}`}
+    >
+      <AlertCircle size={16} />
+      {error}
+    </div>
   );
 };
 

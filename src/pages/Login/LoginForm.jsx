@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { User, Lock, ArrowRight, Loader2, AlertCircle } from "lucide-react";
 import useAuthStore from "../../stores/useAuthStore";
@@ -12,16 +12,14 @@ export const LoginForm = ({ theme, onClose }) => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const success = await login({
-        username: formData.username,
-        password: formData.password,
-      });
-      if (success) {
-        onClose();
-      }
+    const success = await login({
+      username: formData.username,
+      password: formData.password,
+    });
+    if (success) {
+      onClose();
       toast.success("Login Successfully !!");
-    } catch (error) {}
+    }
   };
 
   return (
@@ -32,13 +30,7 @@ export const LoginForm = ({ theme, onClose }) => {
       transition={{ duration: 0.2 }}
       onSubmit={handleSubmit}
     >
-      {error && (
-        <div
-          className={`mb-4 p-3 rounded-lg flex items-center gap-2 text-sm border ${theme.errorBg}`}
-        >
-          <AlertCircle size={16} /> {error}
-        </div>
-      )}
+      <ErrorAlert theme={theme} />
 
       <InputField
         name="username"
@@ -67,6 +59,31 @@ export const LoginForm = ({ theme, onClose }) => {
 
       <SubmitButton loading={loading} text="Log In" />
     </motion.form>
+  );
+};
+
+const ErrorAlert = ({ theme }) => {
+  const { error, clearError } = useAuthStore();
+
+  useEffect(() => {
+    if (!error) return;
+
+    const timer = setTimeout(() => {
+      clearError();
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [error, clearError]);
+
+  if (!error) return null;
+
+  return (
+    <div
+      className={`mb-4 p-3 rounded-lg flex items-center gap-2 text-sm border ${theme.errorBg}`}
+    >
+      <AlertCircle size={16} />
+      {error}
+    </div>
   );
 };
 

@@ -23,17 +23,20 @@ import {
 import { useThemeStore } from "../stores/useThemeStore";
 
 import { useChatStore } from "../stores/useChatStore";
+import useAuthStore from "../stores/useAuthStore";
+import toast from "react-hot-toast";
 
 const Home = () => {
   // --- COMPONENTS ---
 
   const [activeTab, setActiveTab] = useState("chat");
   const { isDarkMode, toggleDarkMode } = useThemeStore();
+  const { logout } = useAuthStore();
 
   const NavigationSidebar = React.memo(() => {
-    const NavItem = ({ icon: Icon, id }) => (
+    const NavItem = ({ icon: Icon, id, onClick }) => (
       <button
-        onClick={() => setActiveTab(id)}
+        onClick={onClick ?? (() => setActiveTab(id))}
         className={`p-3 rounded-xl transition-all duration-300 mb-4 ${
           activeTab === id
             ? "bg-indigo-600 text-white shadow-lg shadow-indigo-500/30"
@@ -43,6 +46,13 @@ const Home = () => {
         <Icon size={24} strokeWidth={1.5} />
       </button>
     );
+
+    const handelLogout = () => {
+      const res = logout();
+      if (res) {
+        toast.success("Logout Successfully !!");
+      }
+    };
 
     return (
       <div className="h-screen w-20 flex flex-col items-center py-8 bg-white dark:bg-slate-900 border-r border-slate-100 dark:border-slate-800 flex-shrink-0 z-50 transition-colors duration-300">
@@ -66,6 +76,7 @@ const Home = () => {
             </button>
             <NavItem icon={Settings} id="settings" />
           </div>
+          <NavItem icon={LogOut} id="logout" onClick={handelLogout} />
         </div>
       </div>
     );

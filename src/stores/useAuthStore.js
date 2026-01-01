@@ -13,6 +13,11 @@ const useAuthStore = create(
       loading: false,
       error: null,
 
+      // Error function
+
+      setError: (message) => set({ error: message }),
+      clearError: () => set({ error: null }),
+
       // Login Function
 
       login: async (userData) => {
@@ -29,9 +34,10 @@ const useAuthStore = create(
             isAuthenticated: true,
             loading: false,
           });
-        } catch (error) {
+          return res.data.success;
+        } catch (err) {
           set({
-            error: error.response?.data?.message || "Login failed",
+            error: err.response?.data?.message || "Login failed",
             loading: false,
           });
         }
@@ -47,6 +53,7 @@ const useAuthStore = create(
           token: null,
           isAuthenticated: false,
         });
+        return true;
       },
 
       // Register Function
@@ -63,6 +70,7 @@ const useAuthStore = create(
             isAuthenticated: false,
             error: null,
           });
+          return res.data.success;
         } catch (error) {
           set({
             error: error.response?.data?.message,
