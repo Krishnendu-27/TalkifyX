@@ -86,9 +86,10 @@ const useAuthStore = create(
         try {
           const res = await api.get(`/user/me`);
           set({
-            user: res.data.user,
+            user: res.data,
             isAuthenticated: true,
           });
+          // console.log(get().user);
         } catch (error) {
           get().logout();
         }

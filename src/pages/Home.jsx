@@ -32,6 +32,7 @@ const Home = () => {
   const [activeTab, setActiveTab] = useState("chat");
   const { isDarkMode, toggleDarkMode } = useThemeStore();
   const { logout } = useAuthStore();
+  const user = useAuthStore((state) => state.user);
 
   const NavigationSidebar = React.memo(() => {
     const NavItem = ({ icon: Icon, id, onClick }) => (
@@ -93,7 +94,8 @@ const Home = () => {
           <div className="flex items-center gap-3 mb-6">
             <div className="relative">
               <img
-                src={currentUser.avatar}
+                // src={currentUser.avatar}
+                src={user.avatar}
                 alt="Me"
                 className="w-12 h-12 rounded-full object-cover border-2 border-white dark:border-slate-700 shadow-sm"
               />
@@ -101,10 +103,12 @@ const Home = () => {
             </div>
             <div>
               <h3 className="font-bold text-slate-800 dark:text-slate-100">
-                {currentUser.name}
+                {/* {currentUser.name} */}
+                {user.username}
               </h3>
               <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
-                {currentUser.role}
+                {/* {currentUser.role} */}
+                {user.bio}
               </p>
             </div>
             <button className="ml-auto text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400">
