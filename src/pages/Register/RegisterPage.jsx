@@ -1,27 +1,13 @@
-import React from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
-import { RegisterForm } from "./RegisterForm";
+import { RegisterForm } from "../../components/Form/RegisterForm";
 import { useThemeStore } from "../../stores/useThemeStore";
+import { useTheme } from "../../theme/Theme";
 
 const RegisterPage = () => {
   const isDark = useThemeStore((state) => state.isDarkMode);
-
-  const theme = {
-    bg: isDark ? "bg-slate-950" : "bg-slate-50",
-    container: isDark
-      ? "bg-slate-900 border-white/10"
-      : "bg-white border-slate-200",
-    text: isDark ? "text-white" : "text-slate-900",
-    inputBg: isDark
-      ? "bg-slate-950 border-white/10 focus:border-cyan-500"
-      : "bg-slate-50 border-slate-200 focus:border-cyan-500",
-    inputIcon: isDark ? "text-slate-500" : "text-slate-400",
-    errorBg: isDark
-      ? "bg-red-500/10 text-red-400 border-red-500/20"
-      : "bg-red-50 text-red-600 border-red-200",
-  };
+  const theme = useTheme();
 
   return (
     <div
@@ -36,7 +22,7 @@ const RegisterPage = () => {
         className={`w-full max-w-md p-8 rounded-3xl border shadow-2xl relative z-10 ${theme.container}`}
       >
         <Link
-          to="/"
+          to="/home"
           className={`inline-flex items-center gap-2 text-sm font-medium mb-8 hover:text-cyan-500 transition-colors ${
             isDark ? "text-slate-400" : "text-slate-500"
           }`}
