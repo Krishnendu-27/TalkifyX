@@ -20,6 +20,13 @@ import useAuthStore from "../../stores/useAuthStore";
 
 const ChatScreen = () => {
   const { id } = useParams(); // Get chat ID from URL
+  // const {
+  //   selectedChat,
+  //   messages,
+  //   isLoadingMessages,
+  //   isSendingMessage,
+  //   isTyping,
+  // } = useChatStore();
   const navigate = useNavigate();
   const theme = useTheme();
   const messagesEndRef = useRef(null);
@@ -59,106 +66,116 @@ const ChatScreen = () => {
   // Static messages data - Both users have sent messages
   // Use otherUserId dynamically based on URL parameter
   // Generate messages based on the chat ID
-  const initialMessages = useMemo(() => [
-    {
-      _id: "msg1",
-      content: "Hey! How are you doing?",
-      sender: { _id: otherUserId },
-      createdAt: new Date(Date.now() - 3600000).toISOString(),
-      status: "read",
-    },
-    {
-      _id: "msg2",
-      content: "I'm good, thanks for asking! How about you?",
-      sender: { _id: currentUserId },
-      createdAt: new Date(Date.now() - 3300000).toISOString(),
-      status: "read",
-    },
-    {
-      _id: "msg3",
-      content: "I'm doing great! Just working on some projects.",
-      sender: { _id: otherUserId },
-      createdAt: new Date(Date.now() - 3000000).toISOString(),
-      status: "read",
-    },
-    {
-      _id: "msg4",
-      content: "That's awesome! I'm also working on a React project right now.",
-      sender: { _id: currentUserId },
-      createdAt: new Date(Date.now() - 2700000).toISOString(),
-      status: "read",
-    },
-    {
-      _id: "msg5",
-      content: "Nice! Are you using Tailwind CSS?",
-      sender: { _id: otherUserId },
-      createdAt: new Date(Date.now() - 2400000).toISOString(),
-      status: "read",
-    },
-    {
-      _id: "msg6",
-      content: "Yes! Tailwind and Lucide icons. The dark mode support is tricky though.",
-      sender: { _id: currentUserId },
-      createdAt: new Date(Date.now() - 2100000).toISOString(),
-      status: "read",
-    },
-    {
-      _id: "msg7",
-      content: "You'll figure it out. Let me know if you need help.",
-      sender: { _id: otherUserId },
-      createdAt: new Date(Date.now() - 1800000).toISOString(),
-      status: "read",
-    },
-    {
-      _id: "msg8",
-      content: "Thanks! I appreciate that. I'll definitely reach out if I get stuck.",
-      sender: { _id: currentUserId },
-      createdAt: new Date(Date.now() - 1500000).toISOString(),
-      status: "read",
-    },
-    {
-      _id: "msg9",
-      content: "Sounds good! What features are you building?",
-      sender: { _id: otherUserId },
-      createdAt: new Date(Date.now() - 1200000).toISOString(),
-      status: "read",
-    },
-    {
-      _id: "msg10",
-      content: "I'm building a chat application with real-time messaging. It's coming along nicely!",
-      sender: { _id: currentUserId },
-      createdAt: new Date(Date.now() - 900000).toISOString(),
-      status: "read",
-    },
-    {
-      _id: "msg11",
-      content: "That sounds really cool! Are you using Socket.io for real-time?",
-      sender: { _id: otherUserId },
-      createdAt: new Date(Date.now() - 600000).toISOString(),
-      status: "read",
-    },
-    {
-      _id: "msg12",
-      content: "Yes, exactly! Socket.io for WebSocket connections. It's working well so far.",
-      sender: { _id: currentUserId },
-      createdAt: new Date(Date.now() - 300000).toISOString(),
-      status: "delivered",
-    },
-    {
-      _id: "msg13",
-      content: "That's impressive! Can't wait to see it when it's done.",
-      sender: { _id: otherUserId },
-      createdAt: new Date(Date.now() - 120000).toISOString(),
-      status: "read",
-    },
-    {
-      _id: "msg14",
-      content: "Thanks! I'll share it with you once I finish the main features.",
-      sender: { _id: currentUserId },
-      createdAt: new Date(Date.now() - 60000).toISOString(),
-      status: "sent",
-    },
-  ], [otherUserId, currentUserId]);
+  const initialMessages = useMemo(
+    () => [
+      {
+        _id: "msg1",
+        content: "Hey! How are you doing?",
+        sender: { _id: otherUserId },
+        createdAt: new Date(Date.now() - 3600000).toISOString(),
+        status: "read",
+      },
+      {
+        _id: "msg2",
+        content: "I'm good, thanks for asking! How about you?",
+        sender: { _id: currentUserId },
+        createdAt: new Date(Date.now() - 3300000).toISOString(),
+        status: "read",
+      },
+      {
+        _id: "msg3",
+        content: "I'm doing great! Just working on some projects.",
+        sender: { _id: otherUserId },
+        createdAt: new Date(Date.now() - 3000000).toISOString(),
+        status: "read",
+      },
+      {
+        _id: "msg4",
+        content:
+          "That's awesome! I'm also working on a React project right now.",
+        sender: { _id: currentUserId },
+        createdAt: new Date(Date.now() - 2700000).toISOString(),
+        status: "read",
+      },
+      {
+        _id: "msg5",
+        content: "Nice! Are you using Tailwind CSS?",
+        sender: { _id: otherUserId },
+        createdAt: new Date(Date.now() - 2400000).toISOString(),
+        status: "read",
+      },
+      {
+        _id: "msg6",
+        content:
+          "Yes! Tailwind and Lucide icons. The dark mode support is tricky though.",
+        sender: { _id: currentUserId },
+        createdAt: new Date(Date.now() - 2100000).toISOString(),
+        status: "read",
+      },
+      {
+        _id: "msg7",
+        content: "You'll figure it out. Let me know if you need help.",
+        sender: { _id: otherUserId },
+        createdAt: new Date(Date.now() - 1800000).toISOString(),
+        status: "read",
+      },
+      {
+        _id: "msg8",
+        content:
+          "Thanks! I appreciate that. I'll definitely reach out if I get stuck.",
+        sender: { _id: currentUserId },
+        createdAt: new Date(Date.now() - 1500000).toISOString(),
+        status: "read",
+      },
+      {
+        _id: "msg9",
+        content: "Sounds good! What features are you building?",
+        sender: { _id: otherUserId },
+        createdAt: new Date(Date.now() - 1200000).toISOString(),
+        status: "read",
+      },
+      {
+        _id: "msg10",
+        content:
+          "I'm building a chat application with real-time messaging. It's coming along nicely!",
+        sender: { _id: currentUserId },
+        createdAt: new Date(Date.now() - 900000).toISOString(),
+        status: "read",
+      },
+      {
+        _id: "msg11",
+        content:
+          "That sounds really cool! Are you using Socket.io for real-time?",
+        sender: { _id: otherUserId },
+        createdAt: new Date(Date.now() - 600000).toISOString(),
+        status: "read",
+      },
+      {
+        _id: "msg12",
+        content:
+          "Yes, exactly! Socket.io for WebSocket connections. It's working well so far.",
+        sender: { _id: currentUserId },
+        createdAt: new Date(Date.now() - 300000).toISOString(),
+        status: "delivered",
+      },
+      {
+        _id: "msg13",
+        content: "That's impressive! Can't wait to see it when it's done.",
+        sender: { _id: otherUserId },
+        createdAt: new Date(Date.now() - 120000).toISOString(),
+        status: "read",
+      },
+      {
+        _id: "msg14",
+        content:
+          "Thanks! I'll share it with you once I finish the main features.",
+        sender: { _id: currentUserId },
+        createdAt: new Date(Date.now() - 60000).toISOString(),
+        status: "sent",
+      },
+    ],
+    [otherUserId, currentUserId]
+  );
 
   const [staticMessages, setStaticMessages] = useState(initialMessages);
 
@@ -170,9 +187,10 @@ const ChatScreen = () => {
   // Use static data
   const selectedChat = staticChatData;
   const messages = staticMessages;
-  const otherUser = staticChatData.users.find(
-    (user) => user._id !== currentUserId && user._id !== currentUser?._id
-  ) || staticChatData.users[1];
+  const otherUser =
+    staticChatData.users.find(
+      (user) => user._id !== currentUserId && user._id !== currentUser?._id
+    ) || staticChatData.users[1];
 
   // Auto-scroll to bottom when messages change
   const scrollToBottom = () => {
@@ -209,7 +227,8 @@ const ChatScreen = () => {
         "Sounds good!",
         "I understand.",
       ];
-      const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+      const randomResponse =
+        responses[Math.floor(Math.random() * responses.length)];
 
       const autoResponse = {
         _id: `msg${Date.now()}_auto`,
@@ -295,9 +314,7 @@ const ChatScreen = () => {
               className="w-10 h-10 rounded-full object-cover"
             />
             <div className="flex flex-col">
-              <span
-                className={`font-semibold text-base ${theme.text}`}
-              >
+              <span className={`font-semibold text-base ${theme.text}`}>
                 {otherUser?.username || "User"}
               </span>
               <span className={`text-xs ${theme.textMuted}`}>Online</span>
@@ -327,10 +344,11 @@ const ChatScreen = () => {
 
       {/* --- CHAT BACKGROUND (Optional: Add a pattern image here) --- */}
       <div
-        className={`absolute inset-0 z-0 opacity-5 pointer-events-none ${theme.divider === "border-slate-200"
-          ? "bg-grid-slate-800"
-          : "bg-grid-slate-200"
-          }`}
+        className={`absolute inset-0 z-0 opacity-5 pointer-events-none ${
+          theme.divider === "border-slate-200"
+            ? "bg-grid-slate-800"
+            : "bg-grid-slate-200"
+        }`}
       />
 
       {/* --- MESSAGES AREA --- */}
@@ -351,24 +369,26 @@ const ChatScreen = () => {
             // Improved Date Formatting
             const messageTime = msg.createdAt
               ? new Date(msg.createdAt).toLocaleTimeString([], {
-                hour: "numeric",
-                minute: "2-digit",
-                hour12: true
-              })
+                  hour: "numeric",
+                  minute: "2-digit",
+                  hour12: true,
+                })
               : msg.time || "";
 
             return (
               <div
                 key={msg._id || msg.id}
-                className={`flex w-full ${isMe ? "justify-end" : "justify-start"
-                  }`}
+                className={`flex w-full ${
+                  isMe ? "justify-end" : "justify-start"
+                }`}
               >
                 <div
                   className={`
                     relative max-w-[85%] md:max-w-[70%] lg:max-w-[60%] px-4 py-2 rounded-xl shadow-sm text-sm md:text-[15px]
-                    ${isMe
-                      ? "bg-cyan-600 text-white rounded-tr-none"
-                      : `${theme.sidebarBg} ${theme.text} border ${theme.divider} rounded-tl-none`
+                    ${
+                      isMe
+                        ? "bg-cyan-600 text-white rounded-tr-none"
+                        : `${theme.sidebarBg} ${theme.text} border ${theme.divider} rounded-tl-none`
                     }
                   `}
                 >
@@ -399,7 +419,9 @@ const ChatScreen = () => {
             );
           })
         ) : (
-          <div className={`flex items-center justify-center h-full ${theme.textMuted}`}>
+          <div
+            className={`flex items-center justify-center h-full ${theme.textMuted}`}
+          >
             <p>No messages yet. Start the conversation!</p>
           </div>
         )}
@@ -472,9 +494,10 @@ const ChatScreen = () => {
             type="submit"
             className={`
               mb-1 p-3 rounded-full flex items-center justify-center transition-all duration-200
-              ${messageInput.trim()
-                ? "bg-cyan-500 text-white shadow-lg hover:bg-cyan-600"
-                : `${theme.sidebarBg} ${theme.text} border ${theme.divider} hover:bg-black/5`
+              ${
+                messageInput.trim()
+                  ? "bg-cyan-500 text-white shadow-lg hover:bg-cyan-600"
+                  : `${theme.sidebarBg} ${theme.text} border ${theme.divider} hover:bg-black/5`
               }
             `}
           >

@@ -94,27 +94,7 @@ const useChatStore = create((set, get) => ({
 
   setSelectedChat: (chat) => {
     set({ selectedChat: chat });
-  },
-
-  // Fetch a specific chat by ID
-  fetchChatById: async (chatId) => {
-    set({ isLoadingChats: true });
-    try {
-      const { data } = await api.get(`/chat/${chatId}`);
-      set({ selectedChat: data, isLoadingChats: false });
-
-      // Also update chats list if not already present
-      const { chats } = get();
-      if (!chats.find((c) => c._id === data._id)) {
-        set({ chats: [data, ...chats] });
-      }
-
-      return data;
-    } catch (error) {
-      console.error("Failed to fetch chat by ID", error);
-      set({ isLoadingChats: false });
-      throw error;
-    }
+    get().fetchMessages();
   },
 
   //    3. Message Management
@@ -129,9 +109,9 @@ const useChatStore = create((set, get) => ({
     try {
       const { data } = await api.get(`/message/${targetChatId}`);
       set({ messages: data, isLoadingMessages: false });
-
       // Join the chat room
       socket.emit("join chat", targetChatId);
+      console.log(data);
     } catch (error) {
       console.error("Failed to fetch messages", error);
       set({ isLoadingMessages: false });

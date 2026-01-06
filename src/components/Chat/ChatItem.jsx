@@ -6,7 +6,7 @@ export const ChatItem = ({ chat, user, onClick }) => {
   return (
     <div
       onClick={onClick}
-      className={`flex items-center gap-4 p-4 cursor-pointer ${theme.cardBg} transition`}
+      className={`flex items-center gap-4 p-4 cursor-pointer ${theme.cardBg} transition border border-slate-700`}
     >
       {/* Avatar */}
       <img
