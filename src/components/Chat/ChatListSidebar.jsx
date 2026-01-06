@@ -1,5 +1,5 @@
 import React from "react";
-import { Search } from "lucide-react";
+import { Search, MessageSquarePlus } from "lucide-react";
 import { useTheme } from "../../theme/Theme";
 import { data, Link } from "react-router-dom";
 import useChatStore from "../../stores/useChatStore";
@@ -13,8 +13,11 @@ const ChatListSidebar = () => {
   return (
     <div className="flex flex-col h-full w-full">
       {/* Header / Search */}
-      <div className={`p-4 border-b ${theme.navBg}`}>
+      <div
+        className={`p-4 border-b ${theme.navBg} flex items-center justify-between`}
+      >
         <h1 className={`text-xl font-bold ${theme.text}`}>Chats</h1>
+        <MessageSquarePlus size={25} />
         {/* <div
           className={`flex items-center px-4 py-2 rounded-lg border ${theme.divider} ${theme.navBg}`}
         >
@@ -28,10 +31,7 @@ const ChatListSidebar = () => {
       </div>
 
       <div className="flex-1 overflow-y-auto custom-scrollbar">
-        <ChatList
-          chats={chats}
-          theme={theme}
-        />
+        <ChatList chats={chats} theme={theme} />
       </div>
     </div>
   );

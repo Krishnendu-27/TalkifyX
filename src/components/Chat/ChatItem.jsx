@@ -1,12 +1,16 @@
 import { CheckCheck } from "lucide-react";
 import { useTheme } from "../../theme/Theme";
+import { useThemeStore } from "../../stores/useThemeStore";
 
 export const ChatItem = ({ chat, user, onClick }) => {
   const theme = useTheme();
+  const isDarkMode = useThemeStore((state) => state.isDarkMode);
   return (
     <div
       onClick={onClick}
-      className={`flex items-center gap-4 p-4 cursor-pointer ${theme.cardBg} transition border border-slate-700`}
+      className={`flex items-center gap-4 p-4 cursor-pointer ${
+        theme.cardBg
+      } transition  ${isDarkMode && "border border-slate-700"} `}
     >
       {/* Avatar */}
       <img
