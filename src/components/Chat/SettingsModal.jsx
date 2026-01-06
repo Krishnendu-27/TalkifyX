@@ -26,7 +26,7 @@ const SettingsModal = ({ isOpen, onClose }) => {
         className={`w-full max-w-md rounded-2xl p-6
          transform transition-all ${
            isDark
-             ? "bg-white/5 border-white/10"
+             ? "bg-neutral-900 border-white/10"
              : "bg-white border-slate-200 shadow-sm hover:shadow-md"
          }`}
       >

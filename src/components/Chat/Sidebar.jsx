@@ -22,6 +22,8 @@ const Sidebar = () => {
   const theme = useTheme();
   const location = useLocation();
 
+  const user = useAuthStore((state) => state.user);
+
   const { isDarkMode, toggleDarkMode } = useThemeStore();
   const logout = useAuthStore((state) => state.logout);
 
@@ -58,7 +60,15 @@ const Sidebar = () => {
     if (item.path) {
       return (
         <Link to={item.path} className={baseClass} title={item.label}>
-          <item.icon strokeWidth={2} size={22} />
+          {item.id === "profile" ? (
+            <img
+              src={user?.avatar || Image.defaultUser}
+              alt="Profile"
+              className="w-6 h-6 rounded-full object-cover"
+            />
+          ) : (
+            <item.icon strokeWidth={2} size={22} />
+          )}
           {isActive && (
             <span className="absolute -right-2 w-1 h-8 bg-cyan-500 rounded-l-full" />
           )}
@@ -86,7 +96,15 @@ const Sidebar = () => {
           ${active ? "text-cyan-500" : theme.textMuted}
         `}
       >
-        <item.icon strokeWidth={2} size={24} />
+        {item.id === "profile" ? (
+          <img
+            src={user?.avatar || Image.defaultUser}
+            alt="Profile"
+            className="w-6 h-6 rounded-full object-cover"
+          />
+        ) : (
+          <item.icon strokeWidth={2} size={24} />
+        )}
         {active && (
           <span className="absolute top-0 w-8 h-1 bg-cyan-500 rounded-b-full" />
         )}
@@ -97,7 +115,7 @@ const Sidebar = () => {
   return (
     <>
       <aside
-        className={`hidden md:flex flex-col justify-between w-20 h-full py-6 ${theme.sidebarBg} transition-colors duration-300 border-r ${theme.divider}`}
+        className={`hidden md:flex flex-col justify-between w-20 h-full py-6 ${theme.bg} transition-colors duration-300 border-r ${theme.divider}`}
       >
         {/* Top Section */}
         <div className="flex flex-col items-center w-full gap-8">
@@ -132,7 +150,7 @@ const Sidebar = () => {
       {/* MOBILE TOP HEADER */}
 
       <div
-        className={`md:hidden fixed top-0 left-0 right-0 h-16 px-4 z-40 flex items-center justify-between ${theme.navBg} border-b ${theme.divider} backdrop-blur-lg`}
+        className={`md:hidden fixed top-0 left-0 right-0 h-12 px-4 z-40 flex items-center justify-between ${theme.bg} border-b ${theme.divider} backdrop-blur-lg`}
       >
         <div className="flex items-center gap-3">
           <img className="h-10 w-10" src={Image.logo} alt="Logo" />
@@ -225,9 +243,9 @@ const Sidebar = () => {
         </div>
       </div>
 
-      {/* MOBILE BOTTOM NAV */}
+      {/* Mobile Bottom Nav */}
       <div
-        className={`md:hidden fixed bottom-0 left-0 right-0 h-16 z-40 ${theme.navBg} border-t ${theme.divider} backdrop-blur-lg`}
+        className={`md:hidden fixed bottom-0 left-0 right-0 h-16 z-40 ${theme.bg} border-t ${theme.divider} backdrop-blur-lg`}
       >
         <div className="flex justify-around items-center h-full px-2">
           {navItems.map((item) => (

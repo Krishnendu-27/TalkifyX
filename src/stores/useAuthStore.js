@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import { api } from "../api/api";
 
 import { extractBearerToken } from "../util/bearerToken";
+import useChatStore from "./useChatStore";
 
 const useAuthStore = create(
   persist(
@@ -36,6 +37,8 @@ const useAuthStore = create(
             loading: false,
           });
           get().loadUser();
+          useChatStore.getState().fetchChats();
+          useChatStore.getState().connectSocket(get().user._id);
           return res.data.success;
         } catch (err) {
           set({
@@ -91,6 +94,8 @@ const useAuthStore = create(
             user: res.data,
             isAuthenticated: true,
           });
+          useChatStore.getState().fetchChats();
+          useChatStore.getState().connectSocket(get().user._id);
           // console.log(get().user);
         } catch (error) {
           get().logout();

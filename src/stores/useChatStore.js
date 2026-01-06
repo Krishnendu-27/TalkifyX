@@ -24,6 +24,9 @@ const useChatStore = create((set, get) => ({
 
     // 2. Emit setup immediately upon connection
     socket.emit("setup", userId);
+    socket.on("connect", (id) => {
+      console.log("Socket connected");
+    });
 
     // 3. Define Event Listeners
     socket

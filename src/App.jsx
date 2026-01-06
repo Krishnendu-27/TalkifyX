@@ -11,12 +11,16 @@ import { ThemeProvider } from "./providers/ThemeProvider";
 import HomeLayout from "./Layout/HomeLayout";
 import LoginPage from "./pages/Login/LoginPage";
 import RegisterPage from "./pages/Register/RegisterPage";
-import ChatLayout from "./Layout/ChatLayout";
+import MainLayout from "./Layout/MainLayout";
 
 import Status from "./pages/Status";
 import Group from "./pages/Group";
 import Setting from "./pages/Setting";
 import Profile from "./pages/Profile";
+
+import ChatLayout from "./components/Chat/ChatLayout";
+import ChatScreen from "./components/Chat/ChatScreen";
+import EmptyChatState from "./components/Chat/EmptyChatState";
 
 const App = () => {
   // const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
@@ -32,8 +36,16 @@ const App = () => {
         <Toaster />
         <Routes>
           <Route element={<ProtectedRoute />}>
-            <Route element={<ChatLayout />}>
-              <Route path="/" element={<Home />} />
+            <Route element={<MainLayout />}>
+
+            
+              <Route path="/" element={<ChatLayout />}>
+                {/* Index: Shows when no chat is selected (Desktop placeholder) */}
+                <Route index element={<EmptyChatState />} />
+                {/* Detail: Shows when specific chat is selected */}
+                <Route path="chat/:id" element={<ChatScreen />} />
+              </Route>
+
               <Route path="/status" element={<Status />} />
               <Route path="/group" element={<Group />} />
               <Route path="/setting" element={<Setting />} />
