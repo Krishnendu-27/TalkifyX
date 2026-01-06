@@ -21,6 +21,7 @@ import Profile from "./pages/Profile";
 import ChatLayout from "./components/Chat/ChatLayout";
 import ChatScreen from "./components/Chat/ChatScreen";
 import EmptyChatState from "./components/Chat/EmptyChatState";
+import Loading from "./components/Loading";
 
 const App = () => {
   // const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
@@ -57,6 +58,7 @@ const App = () => {
           <Route element={<HomeLayout />}>
             <Route path="/home" element={<Landing />} />
           </Route>
+          <Route path="/loading" element={<Loading />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
