@@ -1,6 +1,7 @@
 import { CheckCheck } from "lucide-react";
 import { useTheme } from "../../theme/Theme";
 import { useThemeStore } from "../../stores/useThemeStore";
+import { Image } from "../../assets/image";
 
 export const ChatItem = ({ chat, user, onClick }) => {
   const theme = useTheme();
@@ -14,7 +15,7 @@ export const ChatItem = ({ chat, user, onClick }) => {
     >
       {/* Avatar */}
       <img
-        src={user.avatar}
+        src={user.avatar || Image.defaultUser}
         alt={user.username}
         className="w-12 h-12 rounded-full object-cover"
       />
