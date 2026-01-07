@@ -11,7 +11,6 @@ const ChatList = ({ chats, theme }) => {
 
   const handleSelectChat = (chat) => {
     if (selectedChat?._id === chat._id) return;
-    console.log("Selected chat id:", chat._id);
     setSelectedChat(chat);
   };
 

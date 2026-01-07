@@ -97,7 +97,7 @@ const useAuthStore = create(
           useChatStore.getState().fetchChats();
           useChatStore.getState().connectSocket(get().user._id);
           
-          console.log("Current user id" + get().user._id);
+          // console.log("Current user id" + get().user._id);
         } catch (error) {
           get().logout();
         }

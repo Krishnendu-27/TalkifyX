@@ -261,7 +261,8 @@ const Sidebar = () => {
         )}
       </>
       {/* Mobile Bottom Nav - Hidden on chat detail pages */}
-      {!location.pathname.startsWith("/chat/") && (
+      {/* {!location.pathname.startsWith("/chat/") && ( */}
+      {!/^\/chat(\/.*)?$/.test(location.pathname) && (
         <div
           className={`md:hidden fixed bottom-0 left-0 right-0 h-16 z-40 ${theme.bg} border-t ${theme.divider} backdrop-blur-lg`}
         >

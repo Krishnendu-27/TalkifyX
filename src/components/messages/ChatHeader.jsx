@@ -4,31 +4,33 @@ import useChatStore from "../../stores/useChatStore";
 import useAuthStore from "../../stores/useAuthStore";
 import { useTheme } from "../../theme/Theme";
 import { getSender, getSenderImage, getSenderName } from "../../util/chatUtils";
+import { useThemeStore } from "../../stores/useThemeStore";
+import { Image } from "../../assets/image";
+import { Link } from "react-router-dom";
 
 const ChatHeader = () => {
   const theme = useTheme();
-  const { selectedChat, setSelectedChat } = useChatStore();
   const { user } = useAuthStore();
+  const isDarkMode = useThemeStore((state) => state.isDarkMode);
+
+  const { selectedChat, setSelectedChat, isTyping } = useChatStore();
 
   if (!selectedChat) return null;
 
-  // LOGIC: Determine what to show
-  // If it's a group chat, use the group name and image.
-  // If it's a 1-on-1 chat, use the OTHER user's name and image.
-
   const isGroup = selectedChat.isGroupChat;
 
-  const chatName = isGroup
-    ? selectedChat.chatName
-    : getSenderName(user, selectedChat.users);
+  const otherUser = isGroup ? null : getSender(user, selectedChat.users);
 
-  const chatImage = isGroup
-    ? "https://cdn-icons-png.flaticon.com/512/166/166258.png"
-    : getSenderImage(user, selectedChat.users);
+  let statusText = "";
+  if (isGroup) {
+    statusText = `${selectedChat.users.length} members`;
+  } else if (isTyping) {
+    statusText = "Typing...";
+  }
 
-  const chatStatus = isGroup
-    ? `${selectedChat.users.length} members`
-    : "Online";
+  const statusColor = isTyping
+    ? "text-cyan-500 font-semibold"
+    : theme.textMuted;
 
   return (
     <div
@@ -42,27 +44,36 @@ const ChatHeader = () => {
           onClick={() => setSelectedChat(null)}
           className="md:hidden p-2 -ml-2 rounded-full hover:bg-black/5 text-slate-500"
         >
-          <ArrowLeft size={20} />
+          <Link to="/">
+            <ArrowLeft size={20} />
+          </Link>
         </button>
 
         <div className="relative">
           <img
-            src={chatImage}
-            alt={chatName}
-            className="w-10 h-10 rounded-full object-cover border border-slate-200 dark:border-white/10"
+            src={
+              isGroup ? Image.group : getSenderImage(user, selectedChat.users)
+            }
+            alt="Avatar"
+            className={`w-10 h-10 rounded-full object-cover border ${
+              isDarkMode ? "border-white/10" : "border-slate-200"
+            }`}
           />
 
-          {!isGroup && (
-            <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-white dark:border-slate-900 rounded-full"></span>
-          )}
+          {/* {!isGroup && (
+            <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white dark:border-slate-900 rounded-full"></span>
+          )} */}
         </div>
 
-        <div className="flex flex-col">
+        <div className="flex flex-col justify-center">
           <h2 className={`text-base font-bold leading-tight ${theme.text}`}>
-            {chatName}
+            {isGroup
+              ? selectedChat.chatName
+              : getSenderName(user, selectedChat.users)}
           </h2>
-          <p className={`text-xs font-medium ${theme.textMuted}`}>
-            {chatStatus}
+
+          <p className={`text-xs transition-all duration-200 ${statusColor}`}>
+            {statusText}
           </p>
         </div>
       </div>

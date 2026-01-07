@@ -4,6 +4,7 @@ import pic3 from "./pic3.jpg";
 import pic4 from "./pic4.jpg";
 import logo from "./app-logo.png";
 import defaultUser from "./default-user.avif";
+import group from "./group.png";
 
 export const Image = {
   pic1,
@@ -11,5 +12,6 @@ export const Image = {
   pic3,
   pic4,
   logo,
+  group,
   defaultUser,
 };

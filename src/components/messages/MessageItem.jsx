@@ -29,7 +29,7 @@ const MessageItem = ({ message, isMyMessage, showAvatar }) => {
       {/* Message Bubble */}
       <div
         className={`
-          max-w-[75%] px-4 py-2 rounded-2xl text-sm leading-relaxed break-words shadow-sm relative
+          max-w-[75%] px-4 py-2 rounded-2xl text-sm font-medium leading-relaxed break-words shadow-sm relative
           ${
             isMyMessage
               ? "bg-gradient-to-tr from-cyan-600 to-blue-600 text-white rounded-tr-none"
@@ -40,7 +40,7 @@ const MessageItem = ({ message, isMyMessage, showAvatar }) => {
         {message.content}
 
         <span
-          className={`text-[10px] block text-right mt-1 opacity-70 ${
+          className={`text-[10px] block font-semibold text-right mt-1 opacity-70 ${
             isMyMessage ? "text-cyan-100" : theme.textMuted
           }`}
         >

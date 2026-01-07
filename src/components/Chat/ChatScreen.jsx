@@ -34,10 +34,8 @@ const ChatScreen = () => {
           <MessageList />
         )}
       </div>
-      <div className="p-4 pt-2">
-        {/* Pass your sendMessage function here */}
+      <div className="py-4">
         <ChatInput />
-        <input type="text" />
       </div>
     </div>
   );
