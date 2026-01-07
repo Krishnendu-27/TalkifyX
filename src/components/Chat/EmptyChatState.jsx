@@ -1,7 +1,7 @@
 import React from "react";
 import { MessageSquareText, Lock } from "lucide-react";
 import { useTheme } from "../../theme/Theme";
-import { Image } from "../../assets/image"; // Optional: Use your logo here if you want
+import { Image } from "../../assets/image";
 import { useThemeStore } from "../../stores/useThemeStore";
 
 const EmptyChatState = () => {
@@ -32,7 +32,6 @@ const EmptyChatState = () => {
         </div>
       </div>
 
-      {/* --- WELCOME TEXT --- */}
       <h2
         className={`text-2xl md:text-3xl font-semibold font-mono mb-3 ${theme.text}`}
       >
@@ -45,8 +44,7 @@ const EmptyChatState = () => {
         Select a conversation from the sidebar to start chatting, or search for
         a new connection.
       </p>
-
-      {/* --- SECURITY BADGE (Bottom) --- */}
+      
       <div className="absolute bottom-8 flex items-center gap-2 text-xs text-gray-400">
         <Lock size={14} />
         <span>Secure</span>

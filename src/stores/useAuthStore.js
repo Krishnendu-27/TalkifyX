@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import Cookies from "js-cookie";
-import { api } from "../api/api";
+import { api, socket } from "../api/api";
 
 import { extractBearerToken } from "../util/bearerToken";
 import useChatStore from "./useChatStore";
@@ -96,7 +96,8 @@ const useAuthStore = create(
           });
           useChatStore.getState().fetchChats();
           useChatStore.getState().connectSocket(get().user._id);
-          // console.log(get().user);
+          
+          console.log("Current user id" + get().user._id);
         } catch (error) {
           get().logout();
         }

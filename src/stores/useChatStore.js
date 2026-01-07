@@ -24,7 +24,7 @@ const useChatStore = create((set, get) => ({
 
     // 2. Emit setup immediately upon connection
     socket.emit("setup", userId);
-    socket.on("connect", (id) => {
+    socket.on("connect", () => {
       console.log("Socket connected");
     });
 
@@ -111,7 +111,7 @@ const useChatStore = create((set, get) => ({
       set({ messages: data, isLoadingMessages: false });
       // Join the chat room
       socket.emit("join chat", targetChatId);
-      console.log(data);
+      // console.log(data);
     } catch (error) {
       console.error("Failed to fetch messages", error);
       set({ isLoadingMessages: false });
