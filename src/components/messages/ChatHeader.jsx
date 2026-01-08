@@ -15,7 +15,8 @@ const ChatHeader = () => {
   const isDarkMode = useThemeStore((state) => state.isDarkMode);
   const naviagte = useNavigate();
 
-  const { selectedChat, setSelectedChat, isTyping } = useChatStore();
+  const { selectedChat, setSelectedChat, isTyping, reSetSelectedChat } =
+    useChatStore();
 
   if (!selectedChat) return null;
 
@@ -54,7 +55,7 @@ const ChatHeader = () => {
           onClick={() => naviagte(-1)}
           className="md:hidden p-2 -ml-2 rounded-full hover:bg-black/5 text-slate-500"
         >
-          <ArrowLeft size={20} />
+          <ArrowLeft size={20} onClick={reSetSelectedChat} />
         </div>
 
         <div className="relative">

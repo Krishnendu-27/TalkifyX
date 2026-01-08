@@ -7,18 +7,15 @@ import {
   MessageSquareText,
   CircleFadingPlus,
   MoreVertical,
-  Moon,
-  Sun,
-  LogOut,
 } from "lucide-react";
+import { motion, LayoutGroup } from "motion/react";
 import { useTheme } from "../../theme/Theme";
 import { useThemeStore } from "../../stores/useThemeStore";
 import { Image } from "../../assets/image";
 import useAuthStore from "../../stores/useAuthStore";
+import useChatStore from "../../stores/useChatStore";
 import toast from "react-hot-toast";
 import SettingsModal from "./SettingsModal";
-import useChatStore from "../../stores/useChatStore";
-import { motion } from "motion/react";
 import MobileMenu from "./MobileMenu";
 
 const Sidebar = () => {
@@ -26,19 +23,16 @@ const Sidebar = () => {
   const location = useLocation();
 
   const user = useAuthStore((state) => state.user);
-  const { reSetSelectedChat } = useChatStore();
-
-  const { isDarkMode, toggleDarkMode } = useThemeStore();
   const logout = useAuthStore((state) => state.logout);
+  const { reSetSelectedChat } = useChatStore();
+  const { isDarkMode, toggleDarkMode } = useThemeStore();
 
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleLogout = () => {
     const res = logout();
-    if (res) {
-      toast.success("Logout Successfully !!");
-    }
+    if (res) toast.success("Logout Successfully !!");
   };
 
   const navItems = [
@@ -54,21 +48,18 @@ const Sidebar = () => {
       icon: CircleFadingPlus,
       label: "Status",
       path: "/status",
-      onClick: null,
     },
     {
       id: "groups",
       icon: UsersIcon,
       label: "Groups",
       path: "/group",
-      onClick: null,
     },
     {
       id: "profile",
       icon: UserCircle,
       label: "Profile",
       path: "/profile",
-      onClick: null,
     },
   ];
 
@@ -79,56 +70,81 @@ const Sidebar = () => {
     return location.pathname === item.path;
   };
 
+  /* ---------------- DESKTOP BUTTON ---------------- */
+
   const DesktopNavButton = ({ item, onClick, isActionActive }) => {
     const isActive = item.path ? isActivePath(item) : isActionActive;
+    const MotionLink = motion.create(Link);
+    const MotionButton = motion.button;
 
     const baseClass = `
-      relative group flex flex-col items-center justify-center w-12 h-12 rounded-xl transition-all duration-200 cursor-pointer
+      relative group flex flex-col items-center justify-center
+      w-12 h-12 rounded-xl cursor-pointer
       ${isActive ? theme.sidebarIconActive : theme.sidebarIconInactive}
     `;
 
+    const TapProps = {
+      whileTap: { scale: 0.92 },
+      transition: { type: "spring", stiffness: 500, damping: 30 },
+    };
+
+    const Content = (
+      <>
+        {item.id === "profile" ? (
+          <img
+            src={user?.avatar || Image.defaultUser}
+            alt="Profile"
+            className="w-6 h-6 rounded-full object-cover"
+          />
+        ) : (
+          <item.icon size={22} strokeWidth={2} />
+        )}
+
+        {isActive && (
+          <motion.span
+            layoutId="desktop-active-indicator"
+            className="absolute -right-2 w-1 h-8 bg-cyan-500 rounded-l-full"
+            transition={{ type: "spring", stiffness: 400, damping: 30 }}
+          />
+        )}
+      </>
+    );
+
     if (item.path) {
       return (
-        <Link
+        <MotionLink
           to={item.path}
-          className={baseClass}
-          title={item.label}
           onClick={item.onClick}
+          className={baseClass}
+          {...TapProps}
         >
-          {item.id === "profile" ? (
-            <img
-              src={user?.avatar || Image.defaultUser}
-              alt="Profile"
-              className="w-6 h-6 rounded-full object-cover"
-            />
-          ) : (
-            <item.icon strokeWidth={2} size={22} />
-          )}
-          {isActive && (
-            <span className="absolute -right-2 w-1 h-8 bg-cyan-500 rounded-l-full" />
-          )}
-        </Link>
+          {Content}
+        </MotionLink>
       );
     }
 
     return (
-      <button onClick={onClick} className={baseClass} title={item.label}>
-        <item.icon strokeWidth={2} size={22} />
-        {isActive && (
-          <span className="absolute -right-2 w-1 h-8 bg-cyan-500 rounded-l-full" />
-        )}
-      </button>
+      <MotionButton onClick={onClick} className={baseClass} {...TapProps}>
+        {Content}
+      </MotionButton>
     );
   };
 
+  /* ---------------- MOBILE BUTTON ---------------- */
+
   const MobileNavLink = ({ item }) => {
+    const MotionLink = motion.create(Link);
     const active = isActivePath(item);
+
     return (
-      <Link
+      <MotionLink
         to={item.path}
         onClick={item.onClick}
+        whileTap={{ scale: 0.9 }}
+        transition={{ type: "spring", stiffness: 500, damping: 30 }}
         className={`
-          flex flex-col items-center justify-center w-full h-full py-2 space-y-1
+          relative flex flex-col items-center justify-center
+          w-full h-full py-2
           ${active ? "text-cyan-500" : theme.textMuted}
         `}
       >
@@ -139,37 +155,41 @@ const Sidebar = () => {
             className="w-6 h-6 rounded-full object-cover"
           />
         ) : (
-          <item.icon strokeWidth={2} size={24} />
+          <item.icon size={24} strokeWidth={2} />
         )}
+
         {active && (
-          <span className="absolute top-0 w-8 h-1 bg-cyan-500 rounded-b-full" />
+          <motion.span
+            layoutId="mobile-active-indicator"
+            className="absolute top-0 w-8 h-1 bg-cyan-500 rounded-b-full"
+            transition={{ type: "spring", stiffness: 400, damping: 30 }}
+          />
         )}
-      </Link>
+      </MotionLink>
     );
   };
 
   return (
     <>
+      {/* ---------------- DESKTOP SIDEBAR ---------------- */}
       <aside
-        className={`hidden md:flex flex-col justify-between w-20 h-full py-6 ${theme.bg} transition-colors duration-300 border-r ${theme.divider}`}
+        className={`hidden md:flex flex-col justify-between w-20 h-full py-6 ${theme.bg} border-r ${theme.divider}`}
       >
-        {/* Top Section */}
-        <div className="flex flex-col items-center w-full gap-8">
-          <div className="mb-2">
-            <img className="h-12 w-12" src={Image.logo} alt="App logo" />
-          </div>
+        <div className="flex flex-col items-center gap-8">
+          <img src={Image.logo} className="h-12 w-12" alt="Logo" />
 
-          <div className="flex flex-col gap-4">
-            {navItems
-              .filter((i) => i.id !== "profile")
-              .map((item) => (
-                <DesktopNavButton key={item.id} item={item} />
-              ))}
-          </div>
+          <LayoutGroup>
+            <div className="flex flex-col gap-4">
+              {navItems
+                .filter((i) => i.id !== "profile")
+                .map((item) => (
+                  <DesktopNavButton key={item.id} item={item} />
+                ))}
+            </div>
+          </LayoutGroup>
         </div>
 
-        {/* Bottom Section */}
-        <div className="flex flex-col items-center gap-4 w-full">
+        <div className="flex flex-col items-center gap-4">
           <div className={`w-10 border-t ${theme.divider}`} />
 
           <DesktopNavButton
@@ -178,63 +198,58 @@ const Sidebar = () => {
             isActionActive={isSettingsOpen}
           />
 
-          {/* Profile Link */}
-          <DesktopNavButton item={navItems.find((i) => i.id === "profile")} />
+          <DesktopNavButton item={navItems.at(-1)} />
         </div>
       </aside>
-      <>
-        {!location.pathname.startsWith("/chat") &&
-          !location.pathname.startsWith("/profile") && (
-            <>
-              {/* 1. THE FIXED HEADER */}
-              <div
-                className={`md:hidden fixed top-0 left-0 right-0 h-12 px-4 z-40 flex items-center justify-between ${theme.bg} border-b ${theme.divider} backdrop-blur-lg`}
-              >
-                <div className="flex items-center gap-3">
-                  <img
-                    className="h-10 w-10 not-md:hidden"
-                    src={Image.logo}
-                    alt="Logo"
-                  />
-                  <h1 className={`font-bold text-lg ${theme.text}`}>
-                    TalkifyX
-                  </h1>
-                </div>
 
-                <div className="relative">
-                  <button
-                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                    className={`p-2 rounded-full ${theme.sidebarIconInactive}`}
-                  >
-                    <MoreVertical size={24} />
-                  </button>
-
-                  {/* Mobile Dropdown */}
-                  <MobileMenu
-                    isMobileMenuOpen={isMobileMenuOpen}
-                    setIsMobileMenuOpen={setIsMobileMenuOpen}
-                    isDarkMode={isDarkMode}
-                    toggleDarkMode={toggleDarkMode}
-                    handleLogout={handleLogout}
-                    theme={theme}
-                  />
-                </div>
+      {/* ---------------- MOBILE HEADER ---------------- */}
+      {!location.pathname.startsWith("/chat") &&
+        !location.pathname.startsWith("/profile") &&
+        !location.pathname.startsWith("/create") && (
+          <>
+            <div
+              className={`md:hidden fixed top-0 left-0 right-0 h-12 z-40 px-4
+              flex items-center justify-between ${theme.bg} border-b ${theme.divider}`}
+            >
+              <div className="flex items-center gap-2">
+                <img src={Image.logo} className="h-8 w-8" />
+                <h1 className={`font-bold ${theme.text}`}>TalkifyX</h1>
               </div>
 
-              <div className="md:hidden h-12 w-full flex-shrink-0" />
-            </>
-          )}
-      </>
+              <motion.button
+                whileTap={{ scale: 0.9 }}
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className={`p-2 rounded-full ${theme.sidebarIconInactive}`}
+              >
+                <MoreVertical />
+              </motion.button>
 
+              <MobileMenu
+                isMobileMenuOpen={isMobileMenuOpen}
+                setIsMobileMenuOpen={setIsMobileMenuOpen}
+                isDarkMode={isDarkMode}
+                toggleDarkMode={toggleDarkMode}
+                handleLogout={handleLogout}
+                theme={theme}
+              />
+            </div>
+            <div className="h-12 md:hidden" />
+          </>
+        )}
+
+      {/* ---------------- MOBILE BOTTOM NAV ---------------- */}
       {!location.pathname.startsWith("/chat") && (
         <div
-          className={`md:hidden fixed bottom-0 left-0 right-0 h-16 z-40 ${theme.bg} border-t ${theme.divider} backdrop-blur-lg`}
+          className={`md:hidden fixed bottom-0 left-0 right-0 h-16 z-40
+          ${theme.bg} border-t ${theme.divider}`}
         >
-          <div className="flex justify-around items-center h-full px-2">
-            {navItems.map((item) => (
-              <MobileNavLink key={item.id} item={item} />
-            ))}
-          </div>
+          <LayoutGroup>
+            <div className="flex items-center justify-around h-full">
+              {navItems.map((item) => (
+                <MobileNavLink key={item.id} item={item} />
+              ))}
+            </div>
+          </LayoutGroup>
         </div>
       )}
 

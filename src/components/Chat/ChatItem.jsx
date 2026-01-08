@@ -44,7 +44,10 @@ export const ChatItem = ({ chat, user, onClick }) => {
         {/* Latest Message */}
         <div className={`flex items-center gap-2 text-sm text-cyan-600`}>
           <CheckCheck size={16} />
-          <p className={`truncate ${theme.textMuted}`}>
+          <p
+            className={`truncate ${theme.textMuted}`}
+            title={chat.latestMessage?.content}
+          >
             {chat.latestMessage?.content || "No messages yet"}
           </p>
         </div>

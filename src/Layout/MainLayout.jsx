@@ -25,10 +25,12 @@ import React from "react";
 import Sidebar from "../components/Chat/Sidebar";
 import { useTheme } from "../theme/Theme";
 import { Outlet, useLocation } from "react-router-dom";
+import { useThemeStore } from "../stores/useThemeStore";
 
 const MainLayout = () => {
   const theme = useTheme();
   const location = useLocation();
+  const isDarkMode = useThemeStore((state) => state.isDarkMode);
 
   // Check if we're on a chat detail page (mobile should hide navbar)
   const isChatDetailPage = location.pathname.startsWith("/chat/");

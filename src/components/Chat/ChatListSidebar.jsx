@@ -18,7 +18,9 @@ const ChatListSidebar = () => {
         className={`p-4 border-b ${theme.navBg} flex items-center justify-between`}
       >
         <h1 className={`text-xl font-bold ${theme.text}`}>Chats</h1>
-        <MessageSquarePlus size={25} />
+        <Link to="/create">
+          <MessageSquarePlus size={25} />
+        </Link>
         {/* <div
           className={`flex items-center px-4 py-2 rounded-lg border ${theme.divider} ${theme.navBg}`}
         >

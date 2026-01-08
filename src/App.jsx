@@ -3,7 +3,6 @@ import useAuthStore from "./stores/useAuthStore";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import Landing from "./pages/Landing";
-import Home from "./pages/Home";
 
 import { ProtectedRoute } from "./Routes/Route";
 import { PublicRoute } from "./Routes/Route";
@@ -22,6 +21,7 @@ import ChatLayout from "./components/Chat/ChatLayout";
 import ChatScreen from "./components/Chat/ChatScreen";
 import EmptyChatState from "./components/Chat/EmptyChatState";
 import Loading from "./components/Loading";
+import AddnewUser from "./pages/AddnewUser";
 
 const App = () => {
   // const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
@@ -47,6 +47,7 @@ const App = () => {
               <Route path="/group" element={<Group />} />
               <Route path="/setting" element={<Setting />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/create" element={<AddnewUser />} />
             </Route>
           </Route>
           <Route element={<PublicRoute />}>
