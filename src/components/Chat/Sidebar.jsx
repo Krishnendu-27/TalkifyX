@@ -203,7 +203,7 @@ const Sidebar = () => {
       </aside>
 
       {/* ---------------- MOBILE HEADER ---------------- */}
-      {!location.pathname.startsWith("/chat") &&
+      {/* {!location.pathname.startsWith("/chat") &&
         !location.pathname.startsWith("/profile") &&
         !location.pathname.startsWith("/create") && (
           <>
@@ -235,7 +235,7 @@ const Sidebar = () => {
             </div>
             <div className="h-12 md:hidden" />
           </>
-        )}
+        )} */}
 
       {/* ---------------- MOBILE BOTTOM NAV ---------------- */}
       {!location.pathname.startsWith("/chat") && (

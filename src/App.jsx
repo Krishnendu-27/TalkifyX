@@ -22,14 +22,29 @@ import ChatScreen from "./components/Chat/ChatScreen";
 import EmptyChatState from "./components/Chat/EmptyChatState";
 import Loading from "./components/Loading";
 import AddnewUser from "./pages/AddnewUser";
+import useChatStore from "./stores/useChatStore";
 
 const App = () => {
   // const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const loaduser = useAuthStore((state) => state.loadUser);
+  const { userLoading } = useAuthStore();
+  const { isLoadingChats } = useChatStore();
+
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     loaduser();
+
+    const timer = setTimeout(() => {
+      setIsLoading(false); // ✅ update state
+    }, 2000);
+
+    return () => clearTimeout(timer); // ✅ cleanup
   }, []);
+
+  if (isLoading) {
+    return <Loading />; // ✅ rendering logic here
+  }
 
   return (
     <ThemeProvider>

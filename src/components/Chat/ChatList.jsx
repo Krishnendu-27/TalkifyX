@@ -7,10 +7,12 @@ import useChatStore from "../../stores/useChatStore";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
 import { useThemeStore } from "../../stores/useThemeStore";
+import useAuthStore from "../../stores/useAuthStore";
 
 const ChatList = ({ chats, theme }) => {
   const { setSelectedChat, selectedChat, isLoadingChats, isLoadingMessages } =
     useChatStore();
+  const { user } = useAuthStore();
 
   const isDarkMode = useThemeStore((state) => state.isDarkMode);
   const navigate = useNavigate();
@@ -88,7 +90,7 @@ const ChatList = ({ chats, theme }) => {
               <Link to="/chat">
                 <ChatItem
                   chat={chat}
-                  user={chat.users[1]}
+                  user={chat.users.find((u) => u._id !== user._id)}
                   onClick={() => handleSelectChat(chat)}
                 />
               </Link>

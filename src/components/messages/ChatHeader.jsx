@@ -46,7 +46,7 @@ const ChatHeader = () => {
         damping: 18,
       }}
       className={`
-      w-full h-20 px-6 flex items-center justify-between 
+      w-full h-17 p-6 flex items-center justify-between 
       border-b ${theme.divider} ${theme.navBg} backdrop-blur-sm z-10
     `}
     >

@@ -12,6 +12,7 @@ const useAuthStore = create(
       user: null,
       token: null,
       isAuthenticated: false,
+      userLoading: false,
       loading: false,
       error: null,
 
@@ -88,18 +89,26 @@ const useAuthStore = create(
 
       loadUser: async () => {
         if (!get().token) return;
+        set({
+          userLoading: true,
+        });
         try {
           const res = await api.get(`/user/me`);
           set({
             user: res.data,
+            userLoading: false,
             isAuthenticated: true,
           });
           useChatStore.getState().fetchChats();
           useChatStore.getState().connectSocket(get().user._id);
-          
+
           // console.log("Current user id" + get().user._id);
         } catch (error) {
           get().logout();
+        } finally {
+          set({
+            userLoading: false,
+          });
         }
       },
     }),

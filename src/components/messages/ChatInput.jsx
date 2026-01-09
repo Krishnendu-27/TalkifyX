@@ -68,7 +68,7 @@ const ChatInput = () => {
   return (
     <div
       className={`
-      w-full px-4 py-3 border-t backdrop-blur-xl transition-colors duration-300
+      w-full px-4 border-t backdrop-blur-xl transition-colors duration-300 h-9 my-3 py-1.5
       ${
         isDark
           ? "bg-slate-950/80 border-white/5"
@@ -107,7 +107,7 @@ const ChatInput = () => {
         <div
           className={`
             flex-1 relative flex items-center rounded-[24px] border transition-all duration-200 ease-out
-            focus-within:ring-2 focus-within:ring-cyan-500/50 
+            focus-within:ring-2 focus-within:ring-cyan-500/50 ${theme.bg}
             ${
               isDark
                 ? "bg-slate-900 border-slate-800"
@@ -130,8 +130,9 @@ const ChatInput = () => {
                   ? "text-slate-100 placeholder:text-slate-500"
                   : "text-slate-800 placeholder:text-slate-400"
               }
+              h-6
             `}
-            style={{ minHeight: "44px" }}
+            // style={{ minHeight: "" }}
           />
 
           {/* Emoji Button */}
@@ -160,9 +161,7 @@ const ChatInput = () => {
               ${
                 content.trim()
                   ? "bg-gradient-to-tr from-cyan-500 to-blue-600 text-white hover:shadow-cyan-500/25 hover:scale-105 active:scale-95 cursor-pointer"
-                  : `bg-slate-200 ${
-                      isDark && "bg-slate-800"
-                    } text-slate-400 cursor-not-allowed`
+                  : `bg-slate-200 ${theme.bg} text-slate-400 cursor-not-allowed`
               }
             `}
           >
