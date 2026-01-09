@@ -96,7 +96,7 @@ import useChatStore from "../../stores/useChatStore";
 import useAuthStore from "../../stores/useAuthStore";
 import { useTheme } from "../../theme/Theme";
 import { ChatItem } from "./ChatItem";
-import ChatListSkeleton from "../loaders/ChatListSkeleton";
+import ChatListSkeleton from "../Loaders/ChatListSkeleton";
 import { Image } from "../../assets/image";
 import { motion } from "motion/react";
 import { Link, useNavigate } from "react-router-dom";
