@@ -1,14 +1,5 @@
-// import React from 'react'
-
-// const AddnewUser = () => {
-//   return (
-//     <div>
-
-//     </div>
-//   )
-// }
-
-// export default AddnewUser
+// user/search get
+// userCode
 
 import React, { useEffect, useState, useRef } from "react";
 import {
